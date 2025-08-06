@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoParc - Parc Automobile Premium</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    /* Thème sombre */
+    body.dark-theme {
+        background: #181c24 !important;
+        color: #e3e3e3 !important;
+    }
+    body.dark-theme .header, body.dark-theme .nav {
+        background: linear-gradient(90deg,#222a36 0%,#2e7d32 100%) !important;
+        color: #fff !important;
+    }
+    body.dark-theme .nav-link {
+        color: #e3e3e3 !important;
+    }
+    body.dark-theme .btn {
+        background: #1976d2 !important;
+        color: #fff !important;
+        border-radius: 24px !important;
+    }
+    body.dark-theme .vehicle-item {
+        background: #232a36 !important;
+        color: #e3e3e3 !important;
+        box-shadow: 0 2px 8px #0004 !important;
+    }
+    body.dark-theme .park-management, body.dark-theme .admin-list {
+        background: #232a36 !important;
+        color: #e3e3e3 !important;
+    }
+    /* Boutons arrondis et colorés */
+    .btn {
+        border-radius: 24px !important;
+        font-weight: 500;
+        transition: background 0.2s, color 0.2s;
+    }
+    .btn-primary {
+        background: linear-gradient(90deg,#1976d2 0%,#43a047 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 2px 8px #1976d244;
+    }
+    .btn-secondary {
+/* Effet 3D sur les zones de texte */
+input[type="text"], input[type="email"], input[type="password"], textarea {
+    box-shadow: 0 4px 16px #1976d244, 0 1px 2px #0001;
+    border: 1.5px solid #1976d2;
+    border-radius: 10px;
+    background: #f7fafd;
+    transition: box-shadow 0.2s, border 0.2s;
+}
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus {
+    box-shadow: 0 8px 32px #1976d288, 0 2px 4px #0002;
+    border: 2px solid #43a047;
+    background: #fff;
+}
+        background: linear-gradient(90deg,#ffa000 0%,#8e24aa 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 2px 8px #ffa00044;
+    }
+    .btn:hover {
+        filter: brightness(1.1);
+        box-shadow: 0 4px 16px #0002;
+    }
+    /* Cartes véhicules modernes */
+    .vehicle-item {
+        box-shadow: 0 2px 8px #1976d244;
+        transition: transform 0.2s, box-shadow 0.2s;
+        background: #fff;
+        border-radius: 16px;
+        border: none;
+        position: relative;
+    }
+    .vehicle-item:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 8px 24px #1976d244;
+        border: 1px solid #1976d2;
+    }
+    .vehicle-item::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0; left: 0; right: 0; height: 6px;
+        background: linear-gradient(90deg,#1976d2 0%,#43a047 100%);
+        border-radius: 16px 16px 0 0;
+    }
+    </style>
+</head>
+<style>
+/* Thème sombre */
+body.dark-theme {
+    background: #181c24 !important;
+    color: #e3e3e3 !important;
+}
+body.dark-theme .header, body.dark-theme .nav {
+    background: linear-gradient(90deg,#222a36 0%,#2e7d32 100%) !important;
+    color: #fff !important;
+}
+body.dark-theme .nav-link {
+    color: #e3e3e3 !important;
+}
+body.dark-theme .btn {
+    background: #1976d2 !important;
+    color: #fff !important;
+    border-radius: 24px !important;
+}
+body.dark-theme .vehicle-item {
+    background: #232a36 !important;
+    color: #e3e3e3 !important;
+    box-shadow: 0 2px 8px #0004 !important;
+}
+body.dark-theme .park-management, body.dark-theme .admin-list {
+    background: #232a36 !important;
+    color: #e3e3e3 !important;
+}
+/* Boutons arrondis et colorés */
+.btn {
+    border-radius: 24px !important;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-primary {
+    background: linear-gradient(90deg,#1976d2 0%,#43a047 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px #1976d244;
+}
+.btn-secondary {
+    background: linear-gradient(90deg,#ffa000 0%,#8e24aa 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px #ffa00044;
+}
+.btn:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 4px 16px #0002;
+}
+/* Cartes véhicules modernes */
+.vehicle-item {
+    box-shadow: 0 2px 8px #1976d244;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: #fff;
+    border-radius: 16px;
+    border: none;
+    position: relative;
+}
+.vehicle-item:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 8px 24px #1976d244;
+    border: 1px solid #1976d2;
+}
+.vehicle-item::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 6px;
+    background: linear-gradient(90deg,#1976d2 0%,#43a047 100%);
+    border-radius: 16px 16px 0 0;
+}
+</style>
+<body>
+    <!-- Loader -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <i class="fas fa-car" id="logoCar" style="font-size:48px;animation:carBounce 1.2s infinite alternate;"></i>
+            <h3 style="letter-spacing:2px;">AutoParc</h3>
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <!-- Switch thème -->
+    <div id="themeSwitch" style="position:fixed;top:18px;right:24px;z-index:999;background:#fff;padding:6px 16px;border-radius:24px;box-shadow:0 2px 8px #0002;display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <i class="fas fa-sun" id="iconSun" style="color:#ffa000;"></i>
+        <span id="themeLabel" style="font-weight:500;">Clair</span>
+        <i class="fas fa-moon" id="iconMoon" style="color:#1976d2;display:none;"></i>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav" style="background:linear-gradient(90deg,#1976d2 0%,#43a047 100%);box-shadow:0 2px 8px #0002;">
+            <div class="nav-brand" style="display:flex;align-items:center;gap:8px;">
+                <i class="fas fa-car" style="font-size:28px;animation:carBounce 1.2s infinite alternate;"></i>
+                <span style="font-size:22px;font-weight:600;letter-spacing:2px;color:#fff;text-shadow:0 2px 8px #0002;">AutoParc</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#accueil" class="nav-link active">Accueil</a></li>
+                <li><a href="#vehicules" class="nav-link">Véhicules</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#gestion" class="nav-link">Gestion</a></li>
+                <li><a href="#espace-societe" class="nav-link">Espace Société</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Section Accueil -->
+    <section id="accueil" class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Découvrez Notre Parc Automobile Premium</h1>
+            <p>Une sélection exclusive de véhicules haut de gamme pour tous vos besoins</p>
+            <a href="#vehicules" class="btn btn-primary">Voir nos véhicules</a>
+        </div>
+        <div class="hero-image" data-aos="fade-left">
+            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Voiture premium">
+        </div>
+    </section>
+
+    <!-- Section Présentation -->
+    <section class="presentation">
+        <div class="container">
+            <div class="presentation-content">
+                <div class="presentation-text" data-aos="fade-right">
+                    <h2>Pourquoi Choisir AutoParc ?</h2>
+                    <p>Notre expertise dans le domaine automobile nous permet de vous proposer une gamme complète de véhicules, du citadin au SUV premium, en passant par les véhicules électriques.</p>
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Garantie Premium</h4>
+                            <p>2 ans de garantie sur tous nos véhicules</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-tools"></i>
+                            <h4>Service Après-Vente</h4>
+                            <p>Équipe technique qualifiée et disponible</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-credit-card"></i>
+                            <h4>Financement Flexible</h4>
+                            <p>Solutions de financement adaptées</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="presentation-image" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Service premium">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Véhicules -->
+    <section id="vehicules" class="vehicles">
+        <div class="container">
+            <div class="vehicles-header" data-aos="fade-up">
+                <h2>Notre Catalogue</h2>
+                <button class="btn btn-primary" onclick="app.exportAllVehiclesPDF()">
+                    <i class="fas fa-file-pdf"></i> Exporter le catalogue
+                </button>
+            </div>
+            <div class="vehicles-grid" id="vehiclesGrid">
+                <!-- Les véhicules seront chargés dynamiquement -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Véhicule -->
+    <div id="vehicleModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalContent">
+                <!-- Contenu du modal -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Contact -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 data-aos="fade-up">Contactez-nous</h2>
+            <div class="contact-content">
+                <div class="contact-info" data-aos="fade-right">
+                    <h3>Informations de contact</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Adresse</h4>
+                            <p>123 Avenue des Champs-Élysées<br>75008 Paris, France</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Téléphone</h4>
+                            <p>+33 1 23 45 67 89</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>contact@autoparc.fr</p>
+                        </div>
+                    </div>
+                </div>
+                <form id="contactForm" class="contact-form" data-aos="fade-left">
+                    <div class="form-group">
+                        <label for="name">Nom complet *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Envoyer le message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Gestion -->
+    <section id="gestion" class="admin">
+        <div class="container">
+            <h2 data-aos="fade-up">Gestion du Parc</h2>
+            <div class="admin-content">
+                <div class="admin-form" data-aos="fade-right">
+                    <h3>Ajouter/Modifier un véhicule</h3>
+                    <form id="vehicleForm">
+                        <input type="hidden" id="vehicleId" name="id">
+                        <div class="form-group">
+                            <label for="brand">Marque *</label>
+                            <input type="text" id="brand" name="brand" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Modèle *</label>
+                            <input type="text" id="model" name="model" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Année *</label>
+                            <input type="number" id="year" name="year" min="1900" max="2024" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Prix (FCFA) *</label>
+                            <input type="number" id="price" name="price" min="0" step="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Catégorie *</label>
+                            <select id="category" name="category" required>
+                                <option value="">Sélectionner</option>
+                                <option value="Achat">Achat</option>
+                                <option value="Location">Location</option>
+                                <option value="Option d'achat">Option d'achat</option>
+                                <option value="Deux-roues">Deux-roues</option>
+                                <option value="Électrique/Hybride">Électrique/Hybride</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="button" id="resetForm" class="btn btn-secondary">Réinitialiser</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="admin-list" data-aos="fade-left">
+                    <h3>Véhicules en stock</h3>
+                    <div class="filter-group" style="margin-bottom:16px;">
+                        <label for="filterCategory" style="margin-right:8px;">Filtrer par catégorie :</label>
+                        <select id="filterCategory" style="padding:4px 12px;border-radius:6px;">
+                            <option value="">Toutes</option>
+                            <option value="Achat">Achat</option>
+                            <option value="Location">Location</option>
+                            <option value="Option d'achat">Option d'achat</option>
+                            <option value="Deux-roues">Deux-roues</option>
+                            <option value="Électrique/Hybride">Électrique/Hybride</option>
+                        </select>
+                    </div>
+                    <div id="adminVehiclesList">
+                        <!-- Liste des véhicules pour l'admin -->
+                    </div>
+                </div>
+                <!-- Module Gestion du Parc -->
+                <div class="park-management" data-aos="fade-up" style="margin-top:32px;">
+                    <h3>Tableau de gestion du parc</h3>
+                    <div style="overflow-x:auto;">
+                        <table id="parkTable" style="width:100%;border-collapse:collapse;background:#fff;border-radius:8px;box-shadow:0 2px 8px #0001;">
+                            <thead>
+                                <tr style="background:#1976d2;color:#fff;">
+                                    <th>Marque</th>
+                                    <th>Modèle</th>
+                                    <th>Année</th>
+                                    <th>Catégorie</th>
+                                    <th>Prix (FCFA)</th>
+                                    <th>État</th>
+                                    <th>Historique</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Lignes générées dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin:16px 0;">
+                        <button id="exportParkPDF" class="btn btn-primary" style="margin-right:8px;"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                        <button id="exportParkExcel" class="btn btn-secondary"><i class="fas fa-file-excel"></i> Export Excel</button>
+                    </div>
+                    <div id="parkNotifications" style="margin-top:10px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Espace Société -->
+    <section id="espace-societe" class="societe">
+        <div class="container">
+            <h2 data-aos="fade-up" style="text-align:center;margin-bottom:24px;">Espace Société</h2>
+            <div class="societe-content" style="display:flex;flex-wrap:wrap;justify-content:center;gap:32px;">
+                <div class="societe-form" data-aos="fade-right" style="flex:1;min-width:320px;max-width:400px;margin:auto;text-align:center;">
+                    <h3 style="text-align:center;">Connexion Entreprise</h3>
+                    <form id="societeLoginForm" class="societe-login-form" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+                        <div class="form-group" style="width:100%;max-width:320px;text-align:left;">
+                            <label for="societeEmail" style="display:block;text-align:center;">Email professionnel *</label>
+                            <input type="email" id="societeEmail" name="societeEmail" required style="width:100%;text-align:center;">
+                        </div>
+                        <div class="form-group" style="width:100%;max-width:320px;text-align:left;">
+                            <label for="societePassword" style="display:block;text-align:center;">Mot de passe *</label>
+                            <input type="password" id="societePassword" name="societePassword" required style="width:100%;text-align:center;">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin:auto;">Se connecter</button>
+                    </form>
+                    <div id="societeNotifications" style="margin-top:16px;"></div>
+                </div>
+                <div class="societe-features" data-aos="fade-left" style="flex:2;min-width:340px;max-width:600px;margin:auto;text-align:center;">
+                    <h3 style="text-align:center;">Fonctionnalités pour les sociétés</h3>
+                    <ul class="features-list" style="text-align:center;display:inline-block;margin:auto;padding-left:0;">
+                        <li style="text-align:left;"><i class="fas fa-users"></i> Gestion des utilisateurs et du parc</li>
+                        <li style="text-align:left;"><i class="fas fa-chart-line"></i> Statistiques et suivi des véhicules</li>
+                        <li style="text-align:left;"><i class="fas fa-file-export"></i> Export des données (PDF, Excel)</li>
+                        <li style="text-align:left;"><i class="fas fa-bell"></i> Notifications et rappels</li>
+                        <li style="text-align:left;"><i class="fas fa-tools"></i> Support et assistance technique</li>
+                    </ul>
+                    <hr style="margin:18px 0;">
+                    <div class="societe-users" style="text-align:center;">
+                        <h4 style="text-align:center;">Gestion des utilisateurs</h4>
+                        <form id="userForm" style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:10px;max-width:320px;margin:auto;">
+                            <input type="text" id="userName" placeholder="Nom utilisateur" required style="padding:4px 10px;text-align:center;width:100%;">
+                            <input type="email" id="userEmail" placeholder="Email" required style="padding:4px 10px;text-align:center;width:100%;">
+                            <button type="submit" class="btn btn-primary" style="margin:auto;">Ajouter</button>
+                        </form>
+                        <ul id="usersList" style="margin-bottom:16px;text-align:center;"></ul>
+                    </div>
+                    <div class="societe-stats" style="text-align:center;">
+                        <h4 style="text-align:center;">Statistiques du parc</h4>
+                        <canvas id="societeChart" width="320" height="180" style="background:#fff;border-radius:8px;margin:auto;display:block;"></canvas>
+                    </div>
+                    <div class="societe-export" style="margin:18px 0;text-align:center;">
+                        <button id="exportPDF" class="btn btn-primary" style="margin-right:8px;"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                        <button id="exportExcel" class="btn btn-secondary"><i class="fas fa-file-excel"></i> Export Excel</button>
+                    </div>
+                    <div class="societe-support" style="text-align:center;">
+                        <h4 style="text-align:center;">Support & Assistance</h4>
+                        <form id="supportForm" style="display:flex;flex-direction:column;align-items:center;gap:8px;max-width:320px;margin:auto;">
+                            <input type="text" id="supportName" placeholder="Nom" required style="text-align:center;width:100%;">
+                            <input type="email" id="supportEmail" placeholder="Email" required style="text-align:center;width:100%;">
+                            <textarea id="supportMsg" placeholder="Votre demande" rows="3" required style="text-align:center;width:100%;"></textarea>
+                            <button type="submit" class="btn btn-primary" style="margin:auto;">Envoyer</button>
+                        </form>
+                        <div id="supportResponse" style="margin-top:10px;text-align:center;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AutoParc</h3>
+                    <p>Votre partenaire de confiance pour tous vos besoins automobiles.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#vehicules">Véhicules</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AutoParc. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    // Animation logo voiture
+    const styleSheet = document.createElement('style');
+    styleSheet.innerHTML = `@keyframes carBounce{0%{transform:translateY(0);}100%{transform:translateY(-10px);}}`;
+    document.head.appendChild(styleSheet);
+
+    // Thème sombre/clair
+    document.addEventListener('DOMContentLoaded', function() {
+        var themeSwitch = document.getElementById('themeSwitch');
+        var themeLabel = document.getElementById('themeLabel');
+        var iconSun = document.getElementById('iconSun');
+        var iconMoon = document.getElementById('iconMoon');
+        var isDark = false;
+        themeSwitch.onclick = function(){
+            isDark = !isDark;
+            if(isDark){
+                document.body.classList.add('dark-theme');
+                themeLabel.textContent = 'Sombre';
+                iconSun.style.display = 'none';
+                iconMoon.style.display = '';
+            }else{
+                document.body.classList.remove('dark-theme');
+                themeLabel.textContent = 'Clair';
+                iconSun.style.display = '';
+                iconMoon.style.display = 'none';
+            }
+        };
+        // Espace société
+        var societeForm = document.getElementById('societeLoginForm');
+        var societeNotifications = document.getElementById('societeNotifications');
+        var userForm = document.getElementById('userForm');
+        var usersList = document.getElementById('usersList');
+        var users = [];
+        var societeChart = document.getElementById('societeChart');
+        var exportPDFBtn = document.getElementById('exportPDF');
+        var exportExcelBtn = document.getElementById('exportExcel');
+        var supportForm = document.getElementById('supportForm');
+        var supportResponse = document.getElementById('supportResponse');
+        // --- Gestion du Parc ---
+        var parkTable = document.getElementById('parkTable');
+        var exportParkPDFBtn = document.getElementById('exportParkPDF');
+        var exportParkExcelBtn = document.getElementById('exportParkExcel');
+        var parkNotifications = document.getElementById('parkNotifications');
+
+        // Ajout d'un historique et d'un état pour chaque véhicule
+        function initVehicleData() {
+            vehicles.forEach(function(v) {
+                if(!v.state) v.state = 'Disponible';
+                if(!v.history) v.history = [];
+            });
+        }
+
+        function showParkNotification(msg, type='info') {
+            if(!parkNotifications) return;
+            var color = type==='error' ? '#c62828' : (type==='success' ? '#2e7d32' : '#1976d2');
+            parkNotifications.innerHTML = `<div style="background:${color}22;color:${color};padding:8px 14px;border-radius:6px;margin-bottom:8px;">${msg}</div>`;
+            setTimeout(function(){ parkNotifications.innerHTML = ''; }, 3000);
+        }
+
+        function renderParkTable() {
+            if(!parkTable) return;
+            initVehicleData();
+            var tbody = parkTable.querySelector('tbody');
+            if(vehicles.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="color:#888;text-align:center;">Aucun véhicule dans le parc.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = vehicles.map(function(v, idx) {
+                var histo = v.history && v.history.length ? v.history.map(function(h){return `<li>${h.date} : ${h.action}</li>`;}).join('') : '<li style="color:#888;">Aucune opération</li>';
+                return `<tr>
+                    <td>${v.brand}</td>
+                    <td>${v.model}</td>
+                    <td>${v.year}</td>
+                    <td>${v.category}</td>
+                    <td>${v.price}</td>
+                    <td>
+                        <select class="park-state" data-idx="${idx}" style="padding:2px 8px;border-radius:6px;">
+                            <option value="Disponible"${v.state==='Disponible'?' selected':''}>Disponible</option>
+                            <option value="En maintenance"${v.state==='En maintenance'?' selected':''}>En maintenance</option>
+                            <option value="Affecté"${v.state==='Affecté'?' selected':''}>Affecté</option>
+                            <option value="Vendu"${v.state==='Vendu'?' selected':''}>Vendu</option>
+                        </select>
+                    </td>
+                    <td>
+                        <ul style="margin:0;padding-left:16px;max-height:60px;overflow-y:auto;">${histo}</ul>
+                        <form class="park-op-form" data-idx="${idx}" style="margin-top:6px;display:flex;gap:4px;">
+                            <input type="text" class="park-op-input" placeholder="Opération" style="padding:2px 8px;border-radius:6px;font-size:12px;" required>
+                            <button type="submit" style="background:#1976d2;color:#fff;border:none;border-radius:4px;padding:2px 8px;font-size:12px;">Ajouter</button>
+                        </form>
+                    </td>
+                    <td>
+                        <button class="btn-delete-park" data-idx="${idx}" style="background:#e53935;color:#fff;border:none;border-radius:4px;padding:2px 8px;font-size:12px;">Supprimer</button>
+                    </td>
+                </tr>`;
+            }).join('');
+
+            // Listeners pour état
+            var stateSelects = parkTable.querySelectorAll('.park-state');
+            stateSelects.forEach(function(sel){
+                sel.onchange = function(){
+                    var idx = parseInt(sel.getAttribute('data-idx'));
+                    vehicles[idx].state = sel.value;
+                    vehicles[idx].history = vehicles[idx].history || [];
+                    vehicles[idx].history.push({date:new Date().toLocaleDateString(),action:'Changement état: '+sel.value});
+                    renderParkTable();
+                    showParkNotification('État du véhicule mis à jour','success');
+                };
+            });
+            // Listeners pour ajout opération
+            var opForms = parkTable.querySelectorAll('.park-op-form');
+            opForms.forEach(function(form){
+                form.onsubmit = function(e){
+                    e.preventDefault();
+                    var idx = parseInt(form.getAttribute('data-idx'));
+                    var input = form.querySelector('.park-op-input');
+                    var val = input.value.trim();
+                    if(val) {
+                        vehicles[idx].history = vehicles[idx].history || [];
+                        vehicles[idx].history.push({date:new Date().toLocaleDateString(),action:val});
+                        renderParkTable();
+                        showParkNotification('Opération ajoutée','success');
+                    }
+                };
+            });
+            // Listener suppression véhicule
+            var delBtns = parkTable.querySelectorAll('.btn-delete-park');
+            delBtns.forEach(function(btn){
+                btn.onclick = function(){
+                    var idx = parseInt(btn.getAttribute('data-idx'));
+                    vehicles.splice(idx,1);
+                    renderParkTable();
+                    renderVehicles();
+                    showParkNotification('Véhicule supprimé du parc','success');
+                };
+            });
+        }
+
+        // Export PDF du parc
+        if(exportParkPDFBtn) {
+            exportParkPDFBtn.onclick = function(){
+                var doc = new window.jspdf.jsPDF();
+                doc.text('Gestion du Parc - Liste des véhicules', 10, 10);
+                vehicles.forEach(function(v,i){
+                    doc.text(`${i+1}. ${v.brand} ${v.model} (${v.year}) - ${v.price} FCFA [${v.category}] - État: ${v.state}`, 10, 20+i*8);
+                    if(v.history && v.history.length) {
+                        v.history.forEach(function(h,j){
+                            doc.text(`   - ${h.date}: ${h.action}`, 12, 25+i*8+j*6);
+                        });
+                    }
+                });
+                doc.save('parc_vehicules.pdf');
+                showParkNotification('Export PDF effectué','success');
+            };
+        }
+        // Export Excel (CSV) du parc
+        if(exportParkExcelBtn) {
+            exportParkExcelBtn.onclick = function(){
+                var csv = 'Marque,Modèle,Année,Catégorie,Prix,État,Historique\n';
+                vehicles.forEach(function(v){
+                    var histo = v.history && v.history.length ? v.history.map(function(h){return h.date+':'+h.action;}).join(' | ') : '';
+                    csv += `${v.brand},${v.model},${v.year},${v.category},${v.price},${v.state},"${histo}"\n`;
+                });
+                var blob = new Blob([csv], {type:'text/csv'});
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'parc_vehicules.csv';
+                a.click();
+                showParkNotification('Export Excel effectué','success');
+            };
+        }
+
+        // Rafraîchir le tableau du parc à chaque changement
+        function refreshParkModules() {
+            renderParkTable();
+        }
+
+        // Appel initial
+        renderParkTable();
+        // Rafraîchir le tableau du parc à chaque ajout/modif véhicule
+        var oldRenderVehicles = renderVehicles;
+        renderVehicles = function() {
+            oldRenderVehicles();
+            renderParkTable();
+        };
+
+        // Notifications
+        function showNotification(msg, type='info') {
+            if(!societeNotifications) return;
+            var color = type==='error' ? '#c62828' : (type==='success' ? '#2e7d32' : '#1976d2');
+            societeNotifications.innerHTML = `<div style="background:${color}22;color:${color};padding:8px 14px;border-radius:6px;margin-bottom:8px;">${msg}</div>`;
+            setTimeout(function(){ societeNotifications.innerHTML = ''; }, 3000);
+        }
+
+        // Gestion utilisateurs
+        function renderUsers() {
+            if(!usersList) return;
+            if(users.length === 0) {
+                usersList.innerHTML = '<li style="color:#888;">Aucun utilisateur</li>';
+                return;
+            }
+            usersList.innerHTML = users.map(function(u, idx){
+                return `<li style="margin-bottom:6px;">${u.name} (${u.email}) <button data-idx="${idx}" class="btn-remove-user" style="background:#e53935;color:#fff;border:none;border-radius:4px;padding:2px 8px;cursor:pointer;font-size:12px;">Supprimer</button></li>`;
+            }).join('');
+            var btns = usersList.querySelectorAll('.btn-remove-user');
+            btns.forEach(function(btn){
+                btn.onclick = function(){
+                    var idx = parseInt(btn.getAttribute('data-idx'));
+                    users.splice(idx,1);
+                    renderUsers();
+                    showNotification('Utilisateur supprimé','success');
+                };
+            });
+        }
+        if(userForm) {
+            userForm.addEventListener('submit', function(e){
+                e.preventDefault();
+                var name = document.getElementById('userName').value.trim();
+                var email = document.getElementById('userEmail').value.trim();
+                if(name && email) {
+                    users.push({name,email});
+                    renderUsers();
+                    userForm.reset();
+                    showNotification('Utilisateur ajouté','success');
+                }
+            });
+        }
+        renderUsers();
+
+        // Statistiques véhicules (Chart.js)
+        function renderChart() {
+            if(!societeChart) return;
+            var ctx = societeChart.getContext('2d');
+            var categories = ['Achat','Location','Option d\'achat','Deux-roues','Électrique/Hybride'];
+            var counts = categories.map(function(cat){
+                return vehicles.filter(function(v){return v.category===cat;}).length;
+            });
+            if(window._chartInstance) window._chartInstance.destroy();
+            window._chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: categories,
+                    datasets: [{
+                        data: counts,
+                        backgroundColor: ['#1976d2','#43a047','#ffa000','#8e24aa','#00bcd4']
+                    }]
+                },
+                options: {
+                    plugins: { legend: { position: 'bottom' } },
+                    responsive: false
+                }
+            });
+        }
+
+        // Export PDF
+        if(exportPDFBtn) {
+            exportPDFBtn.onclick = function(){
+                var doc = new window.jspdf.jsPDF();
+                doc.text('Liste des véhicules', 10, 10);
+                vehicles.forEach(function(v,i){
+                    doc.text(`${i+1}. ${v.brand} ${v.model} (${v.year}) - ${v.price} FCFA [${v.category}]`, 10, 20+i*8);
+                });
+                doc.save('vehicules.pdf');
+                showNotification('Export PDF effectué','success');
+            };
+        }
+        // Export Excel (CSV)
+        if(exportExcelBtn) {
+            exportExcelBtn.onclick = function(){
+                var csv = 'Marque,Modèle,Année,Catégorie,Prix,Description\n';
+                vehicles.forEach(function(v){
+                    csv += `${v.brand},${v.model},${v.year},${v.category},${v.price},${v.description}\n`;
+                });
+                var blob = new Blob([csv], {type:'text/csv'});
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'vehicules.csv';
+                a.click();
+                showNotification('Export Excel effectué','success');
+            };
+        }
+
+        // Support/Assistance
+        if(supportForm) {
+            supportForm.addEventListener('submit', function(e){
+                e.preventDefault();
+                var name = document.getElementById('supportName').value.trim();
+                var email = document.getElementById('supportEmail').value.trim();
+                var msg = document.getElementById('supportMsg').value.trim();
+                if(name && email && msg) {
+                    supportResponse.innerHTML = '<span style="color:#1976d2;">Votre demande a été envoyée. Nous vous répondrons rapidement.</span>';
+                    supportForm.reset();
+                    showNotification('Demande d\'assistance envoyée','success');
+                }
+            });
+        }
+
+        // Notifications fictives (rappels)
+        function checkReminders() {
+            // Exemple : notification si un véhicule de plus de 5 ans
+            var now = new Date().getFullYear();
+            var anciens = vehicles.filter(function(v){return now-v.year>=5;});
+            if(anciens.length>0) {
+                showNotification('Rappel : '+anciens.length+' véhicule(s) ont plus de 5 ans. Pensez à l\'entretien.','info');
+            }
+        }
+
+        // Rafraîchir stats et rappels à chaque changement du parc
+        function refreshSocieteModules() {
+            renderChart();
+            checkReminders();
+        }
+
+
+        // Gestion du formulaire d'ajout de véhicule
+        var vehicles = [];
+        var vehicleForm = document.getElementById('vehicleForm');
+        var adminVehiclesList = document.getElementById('adminVehiclesList');
+        var resetBtn = document.getElementById('resetForm');
+    var filterCategory = document.getElementById('filterCategory');
+
+        function renderVehicles() {
+            if(!adminVehiclesList) return;
+            var selectedCat = filterCategory ? filterCategory.value : '';
+            var filtered = selectedCat ? vehicles.filter(function(v){return v.category === selectedCat;}) : vehicles;
+            if(filtered.length === 0) {
+                adminVehiclesList.innerHTML = '<p style="color:#888;">Aucun véhicule en stock.</p>';
+                return;
+            }
+            adminVehiclesList.innerHTML = filtered.map(function(v, idx) {
+                // Pour l'index, retrouver l'index réel dans le tableau original
+                var realIdx = vehicles.indexOf(v);
+                return `<div class="vehicle-item" style="border:1px solid #eee;padding:10px;margin-bottom:10px;border-radius:6px;">
+                    <strong>${v.brand} ${v.model}</strong> (${v.year})<br>
+                    <span style="color:#1976d2;font-weight:500;">${v.price} FCFA</span><br>
+                    <span style="background:#e3f2fd;color:#1976d2;padding:2px 8px;border-radius:12px;font-size:12px;">${v.category}</span><br>
+                    <span style="font-size:13px;color:#555;">${v.description || ''}</span><br>
+                    <button class="btn-modify" data-idx="${realIdx}" style="margin-right:8px;padding:3px 10px;font-size:13px;background:#ffc107;border:none;border-radius:4px;cursor:pointer;">Modifier</button>
+                    <button class="btn-delete" data-idx="${realIdx}" style="padding:3px 10px;font-size:13px;background:#e53935;color:#fff;border:none;border-radius:4px;cursor:pointer;">Supprimer</button>
+                </div>`;
+            }).join('');
+            // Ajout des listeners pour modifier/supprimer
+            var btnsModify = adminVehiclesList.querySelectorAll('.btn-modify');
+            var btnsDelete = adminVehiclesList.querySelectorAll('.btn-delete');
+            btnsModify.forEach(function(btn) {
+                btn.onclick = function() {
+                    var idx = parseInt(btn.getAttribute('data-idx'));
+                    var v = vehicles[idx];
+                    document.getElementById('vehicleId').value = idx;
+                    document.getElementById('brand').value = v.brand;
+                    document.getElementById('model').value = v.model;
+                    document.getElementById('year').value = v.year;
+                    document.getElementById('price').value = v.price;
+                    document.getElementById('category').value = v.category;
+                    document.getElementById('description').value = v.description;
+                };
+            });
+            btnsDelete.forEach(function(btn) {
+                btn.onclick = function() {
+                    var idx = parseInt(btn.getAttribute('data-idx'));
+                    vehicles.splice(idx, 1);
+                    renderVehicles();
+                    vehicleForm.reset();
+                };
+            });
+            refreshSocieteModules();
+        }
+
+        if(vehicleForm) {
+            vehicleForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var brand = document.getElementById('brand').value.trim();
+                var model = document.getElementById('model').value.trim();
+                var year = document.getElementById('year').value.trim();
+                var price = document.getElementById('price').value.trim();
+                var category = document.getElementById('category').value;
+                var description = document.getElementById('description').value.trim();
+                var id = document.getElementById('vehicleId').value;
+                if(brand && model && year && price && category) {
+                    if(id) {
+                        // Modification
+                        vehicles[id] = { brand, model, year, price, category, description };
+                    } else {
+                        // Ajout
+                        vehicles.push({ brand, model, year, price, category, description });
+                    }
+                    renderVehicles();
+                    vehicleForm.reset();
+                    document.getElementById('vehicleId').value = '';
+                }
+            });
+        }
+        if(resetBtn && vehicleForm) {
+        if(filterCategory) {
+            filterCategory.addEventListener('change', function(){
+                renderVehicles();
+            });
+        }
+            resetBtn.addEventListener('click', function() {
+                vehicleForm.reset();
+            });
+        }
+        renderVehicles();
+        refreshSocieteModules();
+    });
+    </script>
+</body>
+</html>
